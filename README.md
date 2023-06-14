@@ -1,5 +1,6 @@
+# Self Balancing Cube
+
 Simulation of a Self Balancing Cube in MATLAB
-In Progress
 
 After running EOM file, make the following changes in Acceleration file
 
