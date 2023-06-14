@@ -36,8 +36,8 @@ syms phi_ddot real
 syms theta_ddot real
 
 % spherical coordinates unit vector
-er = sin(theta)*cos(phi)*j + sin(theta)*sin(phi)*k + cos(theta)*i;
-et = cos(theta)*cos(phi)*j + cos(theta)*sin(phi)*k - sin(theta)*i;
+er = sin(theta)*cos(phi)*i + sin(theta)*sin(phi)*j + cos(theta)*k;
+et = cos(theta)*cos(phi)*i + cos(theta)*sin(phi)*j - sin(theta)*k;
 ep = simplify(cross(er,et));
 
 % System Parameters
@@ -69,28 +69,29 @@ aG_O = simplify(aG_O);
 
 %% Solving EOM
 
-R = [er, et, ep];
-R_const = RotationMatrixGenerator(pi/4,acos(1/sqrt(3)),0,['X','Y','Z']);
-Rx = RotationMatrixGenerator(phi,0,0,['X','Y','Z']);
-omega = phi_dot*i + Rx*theta_dot*k;
+R = [et, ep, er];
+R_const = RotationMatrixGenerator(acos(1/sqrt(3)),0,pi/4,['Z','X','Y']);
+Rz = RotationMatrixGenerator(0,0,phi,['X','Y','Z']);
+omega = phi_dot*k + Rz*theta_dot*j;
 vars = [phi;phi_dot;theta_dot];
 vars_dot = [phi_dot;phi_ddot;theta_ddot];
 omega_dot = jacobian(omega,vars)*vars_dot;
 omega_dot = simplify(omega_dot);
 
-% syms omega [3,1] real
-%syms omega_dot [3,1] real
-
 % Moment
-M_O = cross(d*er,-M*g*i) + T_xb*R*R_const*i ...
+M_O = cross(d*er,-M*g*k) + T_xb*R*R_const*i ...
       + T_yb*R*R_const*j + T_zb*R*R_const*k;
+
+I = R_const*I*R_const'; % Inertia matrix in inertia 
+                        % frame after first rotation that brings cube
+                        % diagonal along z axis
 
 % Rate of Change of Angular Momentum
 Hdot_O = cross(rG_O,M*aG_O) + I*omega_dot + cross(omega,I*omega);
 
 eqn = M_O - Hdot_O; 
-eqn1 = simplify(eqn(1));
-eqn2 = simplify(eqn(2)+eqn(3));
+eqn1 = simplify(dot(eqn,k));
+eqn2 = simplify(dot(eqn,ep));
 eqns = [eqn1;eqn2];
 vars = [phi_ddot;theta_ddot];
 [A,b] = equationsToMatrix(eqns,vars);
