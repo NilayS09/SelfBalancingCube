@@ -33,13 +33,13 @@ I = diag([5e-3,5e-3,5e-3]);   % Inertia matrix in kg m^2
 
 % Initial Conditions
 phi0 = 0; phi_dot0 = 0;
-theta0 = 0.3; theta_dot0 = 0;
+theta0 = 0; theta_dot0 = 0;
 
 z0 = [phi0;phi_dot0;theta0;theta_dot0];
 
 %% Solving Dynamics
-tend = 15; tspan = [0;tend];
-f = @(t,z) SelfBalancingCube_Dynamics(z,M,d,g,I);
+tend = 100; tspan = [0;tend];
+f = @(t,z) SelfBalancingCube_Dynamics(t,z,M,d,g,I);
 
 small = 1e-9;
 options = odeset('AbsTol',small,'RelTol',small);

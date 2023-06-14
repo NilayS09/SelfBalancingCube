@@ -1,4 +1,4 @@
-function z_dot = SelfBalancingCube_Dynamics(z,M,d,g,Iref)
+function z_dot = SelfBalancingCube_Dynamics(t,z,M,d,g,Iref)
 
     z_dot = zeros(4,1);
 
@@ -11,9 +11,19 @@ function z_dot = SelfBalancingCube_Dynamics(z,M,d,g,Iref)
     R = RotationMatrixGenerator(0,theta,phi,['Y','Z','X']);
     I = R*Iref*(R');
 
-    T_xb = 0;
-    T_yb = 0;
-    T_zb = 0;
+    phi_des = 1*t; theta_des = 0.2*cos(t);
+    pose_des = [phi_des;theta_des];
+    pose = [phi;theta];
+    pose_der = [phi_dot;theta_dot];
+    gains.theta = struct('Kp',2,'Kd',0.5,'Ki',0);
+    gains.phi = struct('Kp',1,'Kd',0.2,'Ki',0);
+
+    [T_xb, T_yb, T_zb] = SelfBalancingCube_TrajectoryController(...
+                         pose_des,pose,pose_der,gains,R);
+
+    % T_xb = 0;
+    % T_yb = 0;
+    % T_zb = 0;
 
     [A,b] = SelfBalancingCube_Acceleration(I,M,T_xb,T_yb,T_zb,d,g,...
                                            phi,phi_dot,theta,theta_dot);
