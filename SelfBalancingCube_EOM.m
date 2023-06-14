@@ -7,7 +7,7 @@
 % Description : This script finds Equations of Motion(EOM) for a Self 
 % Balancing Cube modelled as a 3D inverted pendulum.
 %
-% Convention : i_cap is vertically upwards, j_cap and k_cap are then 
+% Convention : k_cap is vertically upwards, i_cap and j_cap are then 
 % according to Right Hand Rule  
 % Spherical coordinates are defined according to the convention
 
