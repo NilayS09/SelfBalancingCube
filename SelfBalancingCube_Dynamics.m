@@ -15,7 +15,7 @@ function z_dot = SelfBalancingCube_Dynamics(t,z,M,d,g,Iref)
     pose_des = [phi_des;theta_des];
     pose = [phi;theta];
     pose_der = [phi_dot;theta_dot];
-    gains.theta = struct('Kp',2,'Kd',0.5,'Ki',0);
+    gains.theta = struct('Kp',6,'Kd',2.5,'Ki',0);
     gains.phi = struct('Kp',1,'Kd',0.2,'Ki',0);
 
     [T_xb, T_yb, T_zb] = SelfBalancingCube_TrajectoryController(...

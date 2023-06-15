@@ -33,7 +33,7 @@ I = diag([5e-3,5e-3,5e-3]);   % Inertia matrix in kg m^2
 
 % Initial Conditions
 phi0 = 0; phi_dot0 = 0;
-theta0 = 0; theta_dot0 = 0;
+theta0 = 0.2; theta_dot0 = 0;
 
 z0 = [phi0;phi_dot0;theta0;theta_dot0];
 
@@ -55,22 +55,22 @@ theta = Z(3,:); theta_dot = Z(4,:);
 f1 = figure;
 subplot(2,2,1)
 plot(toutput,phi)
-title("Roll")
+title("Yaw")
 xlabel("t (seconds)")
 ylabel("$\phi (radians)$",'Interpreter','latex')
 subplot(2,2,2)
 plot(toutput,phi_dot)
-title("Roll Rate")
+title("Yaw Rate")
 xlabel("t (seconds)")
 ylabel("$\dot{\phi} (radians/s)$",'Interpreter','latex')
 subplot(2,2,3)
 plot(toutput,theta)
-title("Yaw")
+title("Roll")
 xlabel("t (seconds)")
 ylabel("$\theta (radians)$",'Interpreter','latex')
 subplot(2,2,4)
 plot(toutput,theta_dot)
-title("Yaw Rate")
+title("Roll Rate")
 xlabel("t (seconds)")
 ylabel("$\dot{\theta} (radians/s)$",'Interpreter','latex')
 
